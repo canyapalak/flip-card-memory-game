@@ -1,8 +1,10 @@
 import "./App.css";
+import { collection, getDocs, orderBy, limit } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/esm/Button";
+import { db } from "./config/FirebaseConfig.js";
 import Card1 from "./assets/1.png";
 import Card2 from "./assets/2.png";
 import Card3 from "./assets/3.png";
@@ -33,10 +35,16 @@ function App() {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [passedTime, setPassedTime] = useState(0);
+  const [score, setScore] = useState(null);
   const [gameEnd, setGameEnd] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
+  const [highScores, setHighScores] = useState([]);
+
+  useEffect(() => {
+    getHighScores();
+  }, []);
 
   const shuffleCards = () => {
     const shuffledCards = [...originalCards, ...originalCards]
@@ -52,10 +60,6 @@ function App() {
     setCards(shuffledCards);
     setTurns(0);
   };
-
-  // useEffect(() => {
-  //   shuffleCards();
-  // }, []);
 
   useEffect(() => {
     if (startTime && !endTime) {
@@ -73,6 +77,7 @@ function App() {
       setGameEnd(true);
       handleShowModal();
       console.log("gameEnd :>> ", gameEnd);
+      setScore(Math.floor(10000 / (turns + passedTime)));
     }
     console.log("gameEnd", gameEnd);
   }, [cards]);
@@ -113,39 +118,68 @@ function App() {
     setDisabled(false);
   };
 
+  //get highscores
+  const getHighScores = async () => {
+    try {
+      const querySnapshot = await getDocs(
+        collection(db, "scores"),
+        orderBy("score", "asc"),
+        limit(10)
+      );
+      const highScores = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        player: doc.data().player,
+        score: doc.data().score,
+      }));
+      setHighScores(highScores);
+      console.log("highscores", highScores);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Mystic Cards Memory Game</h1>
       <button onClick={shuffleCards}>New Game</button>
+      <div className="high-scores">
+        {highScores.map((score) => (
+          <p key={score.id}>
+            {score.player} - {score.score} &nbsp;| &nbsp;
+          </p>
+        ))}
+      </div>
       <div className="turns-and-counter">
         <p id="turns">Turns: {turns}</p>
         <p id="counter">Counter: {passedTime} sec</p>
       </div>
-      {!startTime ? (
-        <div class="landing-card">
-          <img src={Hand} alt="Hand Card" />
-        </div>
-      ) : null}
 
-      <div className="card-grid">
-        {cards.map((card) => (
-          <SingleCard
-            key={card.id}
-            card={card}
-            handleChoice={handleChoice}
-            flipped={
-              card === firstChoice || card === secondChoice || card.match
-            }
-            disabled={disabled}
-          />
-        ))}
-      </div>
+      {!startTime ? (
+        <div className="landing-card">
+          <img src={Hand} alt="Hand Card" id="hand-image" />
+        </div>
+      ) : (
+        <div className="card-grid">
+          {cards.map((card) => (
+            <SingleCard
+              key={card.id}
+              card={card}
+              handleChoice={handleChoice}
+              flipped={
+                card === firstChoice || card === secondChoice || card.match
+              }
+              disabled={disabled}
+            />
+          ))}
+        </div>
+      )}
 
       <Modal show={showModal} className="modal">
         <Modal.Body>
           <p>
-            Congratulations! You have finished the game in {passedTime} seconds
-            and {turns} turns.
+            Congratulations!
+            <br></br>You have finished the game in {passedTime} seconds and{" "}
+            {turns} turns.<br></br>Your score is {score}.
           </p>
         </Modal.Body>
         <Modal.Footer>

@@ -7,3 +7,8 @@ body {
   background-repeat: repeat;
   text-align: center;
 }
+
+p {
+  color: rgb(240, 240, 240);
+  font-size: 130%;
+}
