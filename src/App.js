@@ -1,6 +1,8 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import Card1 from "./assets/1.png";
 import Card2 from "./assets/2.png";
 import Card3 from "./assets/3.png";
@@ -27,22 +29,54 @@ function App() {
   const [firstChoice, setFirstChoice] = useState(null);
   const [secondChoice, setSecondChoice] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [passedTime, setPassedTime] = useState(0);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  const duration = endTime ? Math.round((endTime - startTime) / 1000) : null;
 
   const shuffleCards = () => {
     const shuffledCards = [...originalCards, ...originalCards]
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
 
+    setStartTime(Date.now());
+    setEndTime(null);
+    setPassedTime(0);
+    setGameEnd(false);
     setFirstChoice(null);
     setSecondChoice(null);
     setCards(shuffledCards);
     setTurns(0);
   };
 
-  //start a new game automarically
   useEffect(() => {
     shuffleCards();
   }, []);
+
+  useEffect(() => {
+    if (startTime && !endTime) {
+      const interval = setInterval(() => {
+        setPassedTime((prevPassedTime) => prevPassedTime + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [startTime, endTime]);
+
+  // gameEnd ? handleShowModal(true) : handleShowModal(false);
+
+  //end game
+  useEffect(() => {
+    if (cards.every((card) => card.match)) {
+      setEndTime(Date.now());
+      setGameEnd(true);
+      handleShowModal(true);
+    }
+  }, [cards]);
 
   //handle a choice
   const handleChoice = (card) => {
@@ -84,6 +118,11 @@ function App() {
     <div className="App">
       <h1>Mystic Cards Memory Game</h1>
       <button onClick={shuffleCards}>New Game</button>
+      <div className="turns-and-counter">
+        <p id="turns">Turns: {turns}</p>
+        {/* <p>Duration: {duration !== null ? duration + " seconds" : "-"}</p> */}
+        <p id="counter">Counter: {passedTime} sec</p>
+      </div>
       <div className="card-grid">
         {cards.map((card) => (
           <SingleCard
@@ -97,7 +136,20 @@ function App() {
           />
         ))}
       </div>
-      <p>Turns: {turns}</p>
+      <Modal show={showModal} className="signup-modal">
+        <Modal.Body>
+          <p>You have successfully uploaded your picture.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            className="signup-modal-button"
+            onClick={handleCloseModal}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

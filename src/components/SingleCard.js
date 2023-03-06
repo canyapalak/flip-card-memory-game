@@ -1,5 +1,5 @@
 import React from "react";
-import "./SingleCard.css";
+import "../App.css";
 import CardBack from "../assets/hand.jpg";
 
 export default function SingleCard({ card, handleChoice, flipped, disabled }) {
