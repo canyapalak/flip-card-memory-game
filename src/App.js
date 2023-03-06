@@ -1,5 +1,13 @@
 import "./App.css";
-import { collection, getDocs, orderBy, limit } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  limit,
+  doc,
+  setDoc,
+  query,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
 import Modal from "react-bootstrap/Modal";
@@ -41,11 +49,9 @@ function App() {
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
   const [highScores, setHighScores] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
-  useEffect(() => {
-    getHighScores();
-  }, []);
-
+  //duplicate & shuffle cards and start a game
   const shuffleCards = () => {
     const shuffledCards = [...originalCards, ...originalCards]
       .sort(() => Math.random() - 0.5)
@@ -59,6 +65,7 @@ function App() {
     setSecondChoice(null);
     setCards(shuffledCards);
     setTurns(0);
+    setInputValue("");
   };
 
   useEffect(() => {
@@ -76,8 +83,8 @@ function App() {
       setEndTime(Date.now());
       setGameEnd(true);
       handleShowModal();
-      console.log("gameEnd :>> ", gameEnd);
-      setScore(Math.floor(10000 / (turns + passedTime)));
+      const randomValue = Math.round(Math.random());
+      setScore(Math.floor(10000 / (turns + passedTime) + randomValue));
     }
     console.log("gameEnd", gameEnd);
   }, [cards]);
@@ -119,24 +126,54 @@ function App() {
   };
 
   //get highscores
-  const getHighScores = async () => {
+  useEffect(() => {
+    const getHighScores = async () => {
+      try {
+        const q = query(
+          collection(db, "scores"),
+          orderBy("score", "desc"),
+          limit(10)
+        );
+        const querySnapshot = await getDocs(q);
+        const highScores = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          player: doc.data().player,
+          score: doc.data().score,
+        }));
+        setHighScores(highScores);
+        console.log("highscores", highScores);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getHighScores();
+  }, [showModal]);
+
+  //save a score
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value.toLowerCase());
+  };
+
+  const saveScore = async () => {
     try {
-      const querySnapshot = await getDocs(
-        collection(db, "scores"),
-        orderBy("score", "asc"),
-        limit(10)
-      );
-      const highScores = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        player: doc.data().player,
-        score: doc.data().score,
-      }));
-      setHighScores(highScores);
-      console.log("highscores", highScores);
+      const scoreRef = doc(collection(db, "scores"));
+      await setDoc(scoreRef, {
+        player: inputValue,
+        score: score,
+      });
+      console.log("score is added");
+      console.log("score :>> ", score);
+      console.log("scoreRef", scoreRef);
     } catch (error) {
       console.log(error);
     }
   };
+
+  function saveScoreAndCloseModal() {
+    saveScore();
+    handleCloseModal();
+  }
 
   return (
     <div className="App">
@@ -153,7 +190,6 @@ function App() {
         <p id="turns">Turns: {turns}</p>
         <p id="counter">Counter: {passedTime} sec</p>
       </div>
-
       {!startTime ? (
         <div className="landing-card">
           <img src={Hand} alt="Hand Card" id="hand-image" />
@@ -177,18 +213,24 @@ function App() {
       <Modal show={showModal} className="modal">
         <Modal.Body>
           <p>
-            Congratulations!
-            <br></br>You have finished the game in {passedTime} seconds and{" "}
-            {turns} turns.<br></br>Your score is {score}.
+            Congratulations! You have finished the game in {passedTime} seconds
+            and {turns} turns. Your score is {score}.{" "}
           </p>
+          <p>Enter your name to save your score:</p>
+          <input
+            type="text"
+            id="player-input"
+            onChange={handleInputChange}
+          ></input>
         </Modal.Body>
         <Modal.Footer>
           <Button
             variant="primary"
             className="modal-button"
-            onClick={handleCloseModal}
+            value={inputValue}
+            onClick={saveScoreAndCloseModal}
           >
-            Close
+            Save
           </Button>
         </Modal.Footer>
       </Modal>

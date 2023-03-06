@@ -32,12 +32,7 @@ button:hover {
   display: flex;
   flex-direction: row;
   margin-top: 1rem;
-  flex-wrap: wrap;
-  min-width: 100%;
-}
-
-.high-scores p {
-  display: inline-block;
+  justify-content: center;
 }
 
 /* landing flip card */
@@ -119,12 +114,8 @@ button:hover {
   justify-content: center
 }
 
-.turns-and-counter p {
-  margin-top: -0.1rem;
-}
-
 #turns {
-  margin-right: 21%;
+  margin-right: 20%;
 }
 
 /* modal */
@@ -154,9 +145,10 @@ button:hover {
   color: rgb(46, 43, 41);
 }
 
-.high-scores {
-  display: flex;
-  flex-direction: column;
+#player-input {
+  font-size: large;
+  border: 2px solid black;
+  border-radius: 5px;
 }
 
 /* footer */
@@ -165,7 +157,10 @@ footer {
   text-align: center;
   line-height: 0.8rem;
   padding-top: 0.8rem;
-  margin-top: auto;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  font-size: 90%;
 }
 
 footer a {
@@ -202,4 +197,10 @@ button {
 .card-grid {
     grid-gap: 0.5rem
 }
+
+.footer {
+    font-size: 100%;
+}
+
+
 }

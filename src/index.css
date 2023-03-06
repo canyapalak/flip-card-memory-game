@@ -6,6 +6,7 @@ body {
   background-image: url("./assets/spacebg.jpeg");
   background-repeat: repeat;
   text-align: center;
+  padding-bottom: 4%;
 }
 
 p {
