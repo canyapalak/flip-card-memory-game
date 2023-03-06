@@ -180,10 +180,13 @@ function App() {
       <h1>Mystic Cards Memory Game</h1>
       <button onClick={shuffleCards}>New Game</button>
       <div className="high-scores">
-        {highScores.map((score) => (
-          <p key={score.id}>
-            {score.player} - {score.score} &nbsp;| &nbsp;
-          </p>
+        {highScores.map((score, index) => (
+          <span key={score.id}>
+            <p>
+              {score.player} - {score.score}
+              {index !== highScores.length - 1 && <>&nbsp;|&nbsp;</>}
+            </p>
+          </span>
         ))}
       </div>
       <div className="turns-and-counter">
@@ -222,6 +225,7 @@ function App() {
             id="player-input"
             onChange={handleInputChange}
           ></input>
+          <p id="minimum">*Minimum 3 characters</p>
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -229,6 +233,7 @@ function App() {
             className="modal-button"
             value={inputValue}
             onClick={saveScoreAndCloseModal}
+            disabled={inputValue.length < 3}
           >
             Save
           </Button>

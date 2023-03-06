@@ -35,6 +35,11 @@ button:hover {
   justify-content: center;
 }
 
+.high-scores p {
+  color: #e4e3e2;
+  text-shadow: 0 0 3px #e9c278, 0 0 15px #e9c278, 0 0 20px #e9c278, 0 0 40px #e9c278, 0 0 80px #e9c278, 0 0 90px #e9c278, 0 0 100px #e9c278;
+}
+
 /* landing flip card */
 .landing-card {
   animation: flip 5s infinite;
@@ -140,6 +145,10 @@ button:hover {
   padding-bottom: 2rem
 }
 
+.modal-button:disabled {
+  background-color: #67645b;
+}
+
 .modal-button:hover {
   background-color: #e9c278;
   color: rgb(46, 43, 41);
@@ -149,6 +158,11 @@ button:hover {
   font-size: large;
   border: 2px solid black;
   border-radius: 5px;
+}
+
+#minimum {
+  font-size: 80%;
+  margin-bottom: -0.5rem;
 }
 
 /* footer */
