@@ -1,8 +1,8 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/esm/Button";
 import Card1 from "./assets/1.png";
 import Card2 from "./assets/2.png";
 import Card3 from "./assets/3.png";
@@ -11,6 +11,7 @@ import Card5 from "./assets/5.png";
 import Card6 from "./assets/6.png";
 import Card7 from "./assets/7.png";
 import Card8 from "./assets/8.png";
+import Hand from "./assets/hand.jpg";
 
 function App() {
   const originalCards = [
@@ -37,26 +38,24 @@ function App() {
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
-  const duration = endTime ? Math.round((endTime - startTime) / 1000) : null;
-
   const shuffleCards = () => {
     const shuffledCards = [...originalCards, ...originalCards]
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
 
     setStartTime(Date.now());
-    setEndTime(null);
+    setEndTime(false);
     setPassedTime(0);
-    setGameEnd(false);
+    setGameEnd(null);
     setFirstChoice(null);
     setSecondChoice(null);
     setCards(shuffledCards);
     setTurns(0);
   };
 
-  useEffect(() => {
-    shuffleCards();
-  }, []);
+  // useEffect(() => {
+  //   shuffleCards();
+  // }, []);
 
   useEffect(() => {
     if (startTime && !endTime) {
@@ -67,15 +66,15 @@ function App() {
     }
   }, [startTime, endTime]);
 
-  // gameEnd ? handleShowModal(true) : handleShowModal(false);
-
   //end game
   useEffect(() => {
-    if (cards.every((card) => card.match)) {
+    if (cards.length > 0 && cards.every((card) => card.match)) {
       setEndTime(Date.now());
       setGameEnd(true);
-      handleShowModal(true);
+      handleShowModal();
+      console.log("gameEnd :>> ", gameEnd);
     }
+    console.log("gameEnd", gameEnd);
   }, [cards]);
 
   //handle a choice
@@ -120,9 +119,14 @@ function App() {
       <button onClick={shuffleCards}>New Game</button>
       <div className="turns-and-counter">
         <p id="turns">Turns: {turns}</p>
-        {/* <p>Duration: {duration !== null ? duration + " seconds" : "-"}</p> */}
         <p id="counter">Counter: {passedTime} sec</p>
       </div>
+      {!startTime ? (
+        <div class="landing-card">
+          <img src={Hand} alt="Hand Card" />
+        </div>
+      ) : null}
+
       <div className="card-grid">
         {cards.map((card) => (
           <SingleCard
@@ -136,20 +140,40 @@ function App() {
           />
         ))}
       </div>
-      <Modal show={showModal} className="signup-modal">
+
+      <Modal show={showModal} className="modal">
         <Modal.Body>
-          <p>You have successfully uploaded your picture.</p>
+          <p>
+            Congratulations! You have finished the game in {passedTime} seconds
+            and {turns} turns.
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button
             variant="primary"
-            className="signup-modal-button"
+            className="modal-button"
             onClick={handleCloseModal}
           >
             Close
           </Button>
         </Modal.Footer>
       </Modal>
+      <footer className="footer fixed-bottom">
+        <p>
+          Mystic Cards Memory Game ® 2023 - by{" "}
+          <a href="https://github.com/canyapalak" target="_blank">
+            Can Yapalak
+          </a>{" "}
+          | Illustrations by
+          <a
+            href="https://www.freepik.com/author/pikisuperstar"
+            target="_blank"
+          >
+            {" "}
+            pikisuperstar
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
