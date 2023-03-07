@@ -3,6 +3,10 @@
 .App {
     font-family: "Amaranth", sans-serif;
     background-image: url("./assets/spacebg.jpeg");
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* header */
@@ -11,7 +15,6 @@ h1 {
   color: #bea1f4;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  text-align: center;
 }
 
 /* new game button */
@@ -25,9 +28,6 @@ button {
   font-size:larger;
   width: 8rem;
   height: 2.5rem;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
 }
 
 button:hover {
@@ -40,7 +40,6 @@ button:hover {
   display: flex;
   flex-direction: row;
   margin-top: 1rem;
-  justify-content: center;
 }
 
 .high-scores p {
@@ -55,12 +54,12 @@ button:hover {
 }
 
 .landing-card img {
-  width: 20%;
+  width: 40%;
   border-radius: 20px;
   transform: rotateY(0deg);
-    margin-left: auto;
-      margin-right: auto;
-      display: block;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 @keyframes flip {
@@ -128,17 +127,23 @@ button:hover {
 .turns-and-counter {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 #turns {
-  margin-right: 20%;
+  display: inline-block;
+  margin-right: 20rem;
+}
+
+#counter {
+  display: inline-block;
 }
 
 /* modal */
 .modal {
   margin-top: 10%;
   text-align: center;
+  font-family: "Amaranth", sans-serif;
 }
 
 .modal p {

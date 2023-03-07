@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Amaranth&display=swap');
 
 body {
   margin: 0;
   background-repeat: repeat;
   padding-bottom: 4%;
+  background-image: url("./assets/spacebg.jpeg");
 }
 
 p {
