@@ -12,7 +12,6 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig, {
   experimentalForceLongPolling: true,
-  useFetchStreams: false,
 });
 
 export const db = getFirestore(app);
