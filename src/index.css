@@ -2,8 +2,6 @@
 
 body {
   margin: 0;
-  font-family: 'Amaranth', sans-serif;
-  background-image: url("./assets/spacebg.jpeg");
   background-repeat: repeat;
   padding-bottom: 4%;
 }
