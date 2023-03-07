@@ -83,7 +83,7 @@ function App() {
       const randomValue = Math.round(Math.random());
       setScore(Math.floor(10000 / (turns + passedTime) + randomValue));
     }
-  }, [cards]);
+  }, [cards, passedTime, turns]);
 
   //handle a choice
   const handleChoice = (card) => {
