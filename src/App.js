@@ -164,7 +164,9 @@ function App() {
   return (
     <div className="App">
       <h1>Mystic Cards Memory Game</h1>
-      <button onClick={shuffleCards}>New Game</button>
+      <button onClick={shuffleCards} id="game-button">
+        New Game
+      </button>
       <div className="high-scores">
         {highScores.map((score, index) => (
           <span key={score.id}>
@@ -218,7 +220,7 @@ function App() {
         <Modal.Footer>
           <Button
             variant="primary"
-            className="modal-button"
+            id="game-button"
             value={inputValue}
             onClick={saveScoreAndCloseModal}
             disabled={inputValue.length < 3 || inputValue.length > 10}
