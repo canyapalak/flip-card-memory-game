@@ -86,7 +86,6 @@ function App() {
       const randomValue = Math.round(Math.random());
       setScore(Math.floor(10000 / (turns + passedTime) + randomValue));
     }
-    console.log("gameEnd", gameEnd);
   }, [cards]);
 
   //handle a choice
@@ -115,8 +114,6 @@ function App() {
     }
   }, [firstChoice, secondChoice]);
 
-  console.log("cards", cards);
-
   //reset choices and increment turn
   const resetTurn = () => {
     setFirstChoice(null);
@@ -141,10 +138,7 @@ function App() {
           score: doc.data().score,
         }));
         setHighScores(highScores);
-        console.log("highscores", highScores);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     getHighScores();
   }, [showModal]);
@@ -162,12 +156,7 @@ function App() {
         player: inputValue,
         score: score,
       });
-      console.log("score is added");
-      console.log("score :>> ", score);
-      console.log("scoreRef", scoreRef);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   function saveScoreAndCloseModal() {
