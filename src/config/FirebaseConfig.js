@@ -10,5 +10,9 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_appId,
 };
 
-export const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig, {
+  experimentalForceLongPolling: true,
+  useFetchStreams: false,
+});
+
 export const db = getFirestore(app);
