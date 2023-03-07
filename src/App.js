@@ -225,7 +225,7 @@ function App() {
             id="player-input"
             onChange={handleInputChange}
           ></input>
-          <p id="minimum">*Minimum 3 characters</p>
+          <p id="minimum">*Between 3 and 10 characters</p>
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -233,7 +233,7 @@ function App() {
             className="modal-button"
             value={inputValue}
             onClick={saveScoreAndCloseModal}
-            disabled={inputValue.length < 3}
+            disabled={inputValue.length < 3 || inputValue.length > 10}
           >
             Save
           </Button>
