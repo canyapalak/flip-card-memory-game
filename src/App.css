@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Amaranth&display=swap");
+
+.App {
+    font-family: "Amaranth", sans-serif;
+    background-image: url("./assets/spacebg.jpeg");
+}
+
 /* header */
 h1 {
   font-size: 220%;
