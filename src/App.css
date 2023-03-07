@@ -4,6 +4,7 @@ h1 {
   color: #bea1f4;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 /* new game button */
@@ -19,7 +20,6 @@ button {
   height: 2.5rem;
   margin-left: auto;
   margin-right: auto;
-  font-family: "Amaranth" ;
 }
 
 button:hover {

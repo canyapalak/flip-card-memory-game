@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/esm/Button";
+import Button from "react-bootstrap/Button";
 import { db } from "./config/FirebaseConfig.js";
 import Card1 from "./assets/1.png";
 import Card2 from "./assets/2.png";
@@ -198,8 +198,10 @@ function App() {
           ))}
         </div>
       )}
-
-      <Modal show={showModal} className="modal">
+      <Modal show={showModal}>
+        <Modal.Header closeButton onClick={handleCloseModal}>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
         <Modal.Body>
           <p>
             Congratulations! You have finished the game in {passedTime} seconds

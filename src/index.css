@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  font-family: "Amaranth";
+  font-family: 'Amaranth', sans-serif;
   background-image: url("./assets/spacebg.jpeg");
   background-repeat: repeat;
   text-align: center;
