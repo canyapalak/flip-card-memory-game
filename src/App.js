@@ -44,7 +44,6 @@ function App() {
   const [endTime, setEndTime] = useState(null);
   const [passedTime, setPassedTime] = useState(0);
   const [score, setScore] = useState(null);
-  const [gameEnd, setGameEnd] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -60,7 +59,6 @@ function App() {
     setStartTime(Date.now());
     setEndTime(false);
     setPassedTime(0);
-    setGameEnd(null);
     setFirstChoice(null);
     setSecondChoice(null);
     setCards(shuffledCards);
@@ -81,7 +79,6 @@ function App() {
   useEffect(() => {
     if (cards.length > 0 && cards.every((card) => card.match)) {
       setEndTime(Date.now());
-      setGameEnd(true);
       handleShowModal();
       const randomValue = Math.round(Math.random());
       setScore(Math.floor(10000 / (turns + passedTime) + randomValue));
@@ -231,13 +228,18 @@ function App() {
       <footer className="footer fixed-bottom">
         <p>
           Mystic Cards Memory Game ® 2023 - by{" "}
-          <a href="https://github.com/canyapalak" target="_blank">
+          <a
+            href="https://github.com/canyapalak"
+            target="_blank"
+            rel="noreferrer"
+          >
             Can Yapalak
           </a>{" "}
           | Illustrations by
           <a
             href="https://www.freepik.com/author/pikisuperstar"
             target="_blank"
+            rel="noreferrer"
           >
             {" "}
             pikisuperstar
