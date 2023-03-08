@@ -121,6 +121,7 @@ function App() {
 
   //get highscores
   useEffect(() => {
+    console.log("Enjoy the game!");
     const getHighScores = async () => {
       try {
         const q = query(
