@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { db } from "./config/FirebaseConfig.js";
 import Card1 from "./assets/1.png";
 import Card2 from "./assets/2.png";
@@ -21,20 +22,11 @@ import Card5 from "./assets/5.png";
 import Card6 from "./assets/6.png";
 import Card7 from "./assets/7.png";
 import Card8 from "./assets/8.png";
+import Card9 from "./assets/9.png";
+import Card10 from "./assets/10.png";
 import Hand from "./assets/hand.jpg";
 
 function App() {
-  const originalCards = [
-    { name: "Card1", src: Card1, match: false },
-    { name: "Card2", src: Card2, match: false },
-    { name: "Card3", src: Card3, match: false },
-    { name: "Card4", src: Card4, match: false },
-    { name: "Card5", src: Card5, match: false },
-    { name: "Card6", src: Card6, match: false },
-    { name: "Card7", src: Card7, match: false },
-    { name: "Card8", src: Card8, match: false },
-  ];
-
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
   const [firstChoice, setFirstChoice] = useState(null);
@@ -49,10 +41,56 @@ function App() {
   const handleShowModal = () => setShowModal(true);
   const [highScores, setHighScores] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [showStartModal, setShowStartModal] = useState(false);
+  const handleCloseStartModal = () => setShowStartModal(false);
+  const handleShowStartModal = () => setShowStartModal(true);
+  const [difficulty, setDifficulty] = useState("medium");
+
+  const easyCards = [
+    { name: "Card1", src: Card1, match: false },
+    { name: "Card2", src: Card2, match: false },
+    { name: "Card3", src: Card3, match: false },
+    { name: "Card5", src: Card5, match: false },
+    { name: "Card6", src: Card6, match: false },
+    { name: "Card8", src: Card8, match: false },
+  ];
+
+  const mediumCards = [
+    { name: "Card1", src: Card1, match: false },
+    { name: "Card2", src: Card2, match: false },
+    { name: "Card3", src: Card3, match: false },
+    { name: "Card4", src: Card4, match: false },
+    { name: "Card5", src: Card5, match: false },
+    { name: "Card6", src: Card6, match: false },
+    { name: "Card7", src: Card7, match: false },
+    { name: "Card8", src: Card8, match: false },
+  ];
+
+  const hardCards = [
+    { name: "Card1", src: Card1, match: false },
+    { name: "Card2", src: Card2, match: false },
+    { name: "Card3", src: Card3, match: false },
+    { name: "Card4", src: Card4, match: false },
+    { name: "Card5", src: Card5, match: false },
+    { name: "Card6", src: Card6, match: false },
+    { name: "Card7", src: Card7, match: false },
+    { name: "Card8", src: Card8, match: false },
+    { name: "Card9", src: Card9, match: false },
+    { name: "Card10", src: Card10, match: false },
+  ];
 
   //duplicate & shuffle cards and start a game
   const shuffleCards = () => {
-    const shuffledCards = [...originalCards, ...originalCards]
+    let cardsToUse;
+    if (difficulty === "easy") {
+      cardsToUse = easyCards;
+    } else if (difficulty === "medium") {
+      cardsToUse = mediumCards;
+    } else {
+      cardsToUse = hardCards;
+    }
+
+    const shuffledCards = [...cardsToUse, ...cardsToUse]
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
 
@@ -77,11 +115,20 @@ function App() {
 
   //end game
   useEffect(() => {
+    let startingPoint;
+    if (difficulty === "easy") {
+      startingPoint = 6000;
+    } else if (difficulty === "medium") {
+      startingPoint = 10000;
+    } else {
+      startingPoint = 14000;
+    }
+
     if (cards.length > 0 && cards.every((card) => card.match)) {
       setEndTime(Date.now());
       handleShowModal();
       const randomValue = Math.round(Math.random());
-      setScore(Math.floor(10000 / (turns + passedTime) + randomValue));
+      setScore(Math.floor(startingPoint / (turns + passedTime) + randomValue));
     }
   }, [cards, passedTime, turns]);
 
@@ -143,10 +190,6 @@ function App() {
 
   //save a score
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value.toLowerCase());
-  };
-
   const saveScore = async () => {
     try {
       const scoreRef = doc(collection(db, "scores"));
@@ -157,17 +200,62 @@ function App() {
     } catch (error) {}
   };
 
+  //handles
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value.toLowerCase());
+  };
+
   function saveScoreAndCloseModal() {
     saveScore();
     handleCloseModal();
   }
 
+  function closeModalandStartGame() {
+    handleCloseStartModal();
+    shuffleCards();
+  }
+
+  const handleDifficultyChange = (event) => {
+    setDifficulty(event.target.value);
+  };
+
   return (
     <div className="App">
       <h1>Mystic Cards Memory Game</h1>
-      <button onClick={shuffleCards} id="game-button">
+      <button onClick={handleShowStartModal} id="game-button">
         New Game
       </button>
+      <Modal show={showStartModal}>
+        <Modal.Header closeButton onClick={handleCloseStartModal}>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Please select a difficulty: </p>
+          <Form.Select
+            value={difficulty}
+            aria-label="Default select example"
+            onChange={handleDifficultyChange}
+          >
+            <option value="easy">Easy</option>
+            <option value="medium" defaultValue={true}>
+              Medium
+            </option>
+            <option value="hard">Hard</option>
+          </Form.Select>
+          <p id="minimum">*The harder the game, the higher scores you get.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            id="game-button"
+            onClick={closeModalandStartGame}
+          >
+            Start
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <div className="high-scores">
         {highScores.map((score, index) => (
           <span key={score.id}>
