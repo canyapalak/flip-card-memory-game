@@ -21,4 +21,4 @@ Bootstrap
 <br>
 
 <h2>Deployed on Netlify:</h2>
- https://mystery-cards-memory-game.netlify.app/
+ https://mystic-cards-memory-game.netlify.app
