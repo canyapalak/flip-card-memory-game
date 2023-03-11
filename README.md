@@ -4,9 +4,9 @@
 
 <h2>Functionality and purpose of the application</h2>
 <p>
-The objective of this memory game is to find all eight pairs of cards to finish the game. There are 16 cards in total, and players can keep track of their turns and elapsed time as they play.
+The object of this memory game is to find all pairs of cards to finish the game. Players can choose the difficulty among easy, medium and hard modes before starting the game and number of cards varies according to this choice. Players can keep track of their turns and elapsed time as they play.
 
-The game's scoring system rewards players who complete the game in the least amount of time and turns. Players can save their scores and compete against others on the scoreboard, with the top ten scores displayed for all to see.
+The game's scoring system rewards players who complete the game in the least amount of time and turns. Each difficulty mode has its own formula and players can get higher scores in harder modes. They can also save their scores and compete against others on the scoreboard, with the top ten scores displayed for all to see.
 
 The game was built with React and Firebase for saving scores and Bootstrap for clean styling.
 </p>
