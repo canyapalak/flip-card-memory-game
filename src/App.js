@@ -130,7 +130,7 @@ function App() {
       const randomValue = Math.round(Math.random());
       setScore(Math.floor(startingPoint / (turns + passedTime) + randomValue));
     }
-  }, [cards, passedTime, turns]);
+  }, [cards, passedTime, turns, difficulty]);
 
   //handle a choice
   const handleChoice = (card) => {
