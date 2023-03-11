@@ -114,6 +114,7 @@ function App() {
   }, [startTime, endTime]);
 
   //end game
+
   useEffect(() => {
     let startingPoint;
     if (difficulty === "easy") {
@@ -125,12 +126,13 @@ function App() {
     }
 
     if (cards.length > 0 && cards.every((card) => card.match)) {
-      setEndTime(Date.now());
       handleShowModal();
+      setEndTime(Date.now());
       const randomValue = Math.round(Math.random());
       setScore(Math.floor(startingPoint / (turns + passedTime) + randomValue));
     }
-  }, [cards, passedTime, turns, difficulty]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cards, passedTime, turns]);
 
   //handle a choice
   const handleChoice = (card) => {
