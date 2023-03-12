@@ -1,6 +1,6 @@
 # flip-card memory game
 
-<h2>A single page flip-card memory game, built with React, Firebase, Bootstrap and plain CSS</h2>
+<h2>A single page flip-card memory game, developed with React, Firebase, Bootstrap and plain CSS</h2>
 
 <h2>Functionality and purpose of the application</h2>
 <p>
