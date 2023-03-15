@@ -25,6 +25,10 @@ import Card8 from "./assets/8.png";
 import Card9 from "./assets/9.png";
 import Card10 from "./assets/10.png";
 import Hand from "./assets/hand.jpg";
+import Tut_0 from "./assets/tut_0.png";
+import Tut_1 from "./assets/tut_1.png";
+import Tut_2 from "./assets/tut_2.png";
+import Tut_3 from "./assets/tut_3.png";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -44,6 +48,9 @@ function App() {
   const [showStartModal, setShowStartModal] = useState(false);
   const handleCloseStartModal = () => setShowStartModal(false);
   const handleShowStartModal = () => setShowStartModal(true);
+  const [showTutorialModal, setShowTutorialModal] = useState(false);
+  const handleCloseTutorialModal = () => setShowTutorialModal(false);
+  const handleShowTutorialModal = () => setShowTutorialModal(true);
   const [difficulty, setDifficulty] = useState("medium");
 
   const easyCards = [
@@ -273,8 +280,15 @@ function App() {
         <p id="counter">Counter: {passedTime} sec</p>
       </div>
       {!startTime ? (
-        <div className="landing-card">
-          <img src={Hand} alt="Hand Card" id="hand-image" />
+        <div className="hand-and-tutorial">
+          <div className="landing-card">
+            <img src={Hand} alt="Hand Card" id="hand-image" />
+          </div>
+          <br></br>
+          <br></br>
+          <button id="tutorial-button" onClick={handleShowTutorialModal}>
+            How to Play?
+          </button>
         </div>
       ) : (
         <div className="card-grid">
@@ -291,6 +305,42 @@ function App() {
           ))}
         </div>
       )}
+      <Modal show={showTutorialModal} className="tutorial-modal">
+        <Modal.Header closeButton onClick={handleCloseTutorialModal}>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h3>How to Play the Memory Game?</h3>
+          <br></br>
+          1.&nbsp;
+          <img src={Tut_0}></img>
+          <p>
+            Select a difficulty. You will deal with more cards in harder modes
+            but you can get higher scores.
+          </p>
+          <hr></hr>
+          2.&nbsp;
+          <img src={Tut_1}></img>
+          <p>
+            Turn two cards in a turn and try to find the matching cards. The
+            game ends when you find all pairs.
+          </p>
+          <hr></hr>
+          3.&nbsp;
+          <img src={Tut_2}></img>
+          <p>
+            Pay attention to turns and the counter. The less round and time you
+            finish the game, the higher scores you get.
+          </p>
+          <hr></hr>
+          4.&nbsp;
+          <img src={Tut_3}></img>
+          <p>
+            Save your score at the end of the game. Your name and score will be
+            shown if you are in top ten.
+          </p>
+        </Modal.Body>
+      </Modal>
       <Modal show={showModal}>
         <Modal.Header closeButton onClick={handleCloseModal}>
           <Modal.Title></Modal.Title>

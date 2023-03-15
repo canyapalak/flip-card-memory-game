@@ -18,7 +18,8 @@ h1 {
 }
 
 /* new game button */
-#game-button {
+#game-button,
+#tutorial-button {
   background:#e29e20;
   border: 1px solid black;
   border-radius: 5px;
@@ -34,7 +35,15 @@ h1 {
 
 #game-button:hover {
   background: #e9c278;
-  color: black;
+}
+
+#tutorial-button {
+  background-color: #bea1f4;
+}
+
+#tutorial-button:hover {
+  background-color: #bea1f4;
+  background-color: #d6c9ef;
 }
 
 /* highscores */
@@ -80,7 +89,6 @@ h1 {
 
 /* cards container */
 .card-grid {
-  width: 35%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 1rem;
@@ -204,6 +212,22 @@ footer a {
 
 footer a:hover {
   color: #f8d086;
+}
+
+.tutorial-modal {
+  margin: 0;
+}
+
+.tutorial-modal h3 {
+  font-size: 20px;
+}
+
+.tutorial-modal img {
+  width: 60%;
+}
+
+.tutorial-modal p {
+  font-size: 12px;
 }
 
 /* media queries */
