@@ -322,22 +322,22 @@ function App() {
           2.&nbsp;
           <img src={Tut_1} alt="Step 2"></img>
           <p>
-            Turn two cards in a turn and try to find the matching cards. The
+            Flip two cards in each turn and try to find the matching cards. The
             game ends when you find all pairs.
           </p>
           <hr></hr>
           3.&nbsp;
           <img src={Tut_2} alt="Step 3"></img>
           <p>
-            Pay attention to turns and the counter. The less round and time you
-            finish the game, the higher scores you get.
+            Pay attention to 'Turns' and 'Counter'. The less round and time you
+            spend to finish the game, the higher scores you get.
           </p>
           <hr></hr>
           4.&nbsp;
           <img src={Tut_3} alt="Step 4"></img>
           <p>
             Save your score at the end of the game. Your name and score will be
-            shown if you are in top ten.
+            shown in the scoreboard if you are in top ten.
           </p>
         </Modal.Body>
       </Modal>
