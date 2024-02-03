@@ -7,6 +7,7 @@ import {
   doc,
   setDoc,
   query,
+  serverTimestamp,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import SingleCard from "./components/SingleCard";
@@ -205,6 +206,7 @@ function App() {
       await setDoc(scoreRef, {
         player: inputValue,
         score: score,
+        time: serverTimestamp(),
       });
     } catch (error) {}
   };
@@ -282,7 +284,7 @@ function App() {
       {!startTime ? (
         <div className="hand-and-tutorial">
           <div className="landing-card">
-            <img src={Hand} alt="Hand Card" id="hand-image" />
+            <img src={Hand} alt="Hand Card" />
           </div>
           <br></br>
           <br></br>
